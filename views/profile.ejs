@@ -1,0 +1,75 @@
+<html>
+<%include homepage %>
+
+<style>
+button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+}
+input[type=text], input[type=password] {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+}
+</style>
+<h1>Profile Information</h1>
+
+
+
+<div class="container">
+<h2>Name: </h2><h2 id='name'></h2>
+
+
+
+<h2>Works: </h2>
+  <div id='works'>
+  </div>
+  <input type='text' id='addNewWork'>
+  <input type='button' onclick='addWork()' value='Add Work'/>
+</div>
+
+<script>
+var id = window.location.href.split('/')[4];
+
+   var xmlHttp = new XMLHttpRequest();
+   xmlHttp.open( "GET", '/getUser/'+id, false ); // false for synchronous request
+   xmlHttp.send( null );
+   var User = JSON.parse(xmlHttp.responseText);
+   console.log(User);
+   document.getElementById('name').innerHTML = User.name;
+
+   allWorks = User.works.split('*');
+   var a = '<ul>',
+     b = '</ul>',
+     m = [];
+
+     // Right now, this loop only works with one
+     // explicitly specified array (options[0] aka 'set0')
+     for (i = 0; i < allWorks.length; i += 1){
+       m[i] = '<li>' + allWorks[i] + '</li>';
+     }
+
+ document.getElementById('works').innerHTML = a + m + b;
+
+
+ function addWork()
+ {
+   var wrk = document.getElementById('addNewWork').value;
+   var xmlHttp = new XMLHttpRequest();
+   var id = window.location.href.split('/')[4];
+   xmlHttp.open( "POST", '/addWork/'+id, false ); // false for synchronous request
+   xmlHttp.setRequestHeader('Content-Type','application/json');
+   xmlHttp.send(JSON.stringify({work:wrk}));
+
+ }
+
+
+</script>

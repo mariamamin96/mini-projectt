@@ -1,0 +1,40 @@
+<html>
+<% include homepage %>
+<h1>All Portfolios</h1>
+<div  class="container" id='port'>
+</div>
+</html>
+<script>
+  var xmlHttp = new XMLHttpRequest();
+  xmlHttp.open( "GET", '/getAllWork', false ); // false for synchronous request
+  xmlHttp.send( null );
+  var Users = JSON.parse(xmlHttp.responseText);
+  console.log(Users);
+
+  var a = '<ul>',
+    b = '</ul>',
+    m = [];
+
+var currentWork;
+
+    // Right now, this loop only works with one
+    // explicitly specified array (options[0] aka 'set0')
+    for (i = 0; i < Users.length; i += 1){
+      var works = Users[i].works.split('*');
+      used = 0;
+      currentWork = '';
+      for(var j = 0;used!=2&& j < works.length; j++)
+      {
+        if(works[j]!=''){
+        currentWork +=  works[j] + '<br>';
+        used++;
+        }
+      }
+
+      m[i] = '<li>' + Users[i].name +'<br>'+ currentWork+ '</li>';
+    }
+
+document.getElementById('port').innerHTML = a + m + b;
+
+
+</script>

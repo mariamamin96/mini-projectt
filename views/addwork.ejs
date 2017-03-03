@@ -1,0 +1,32 @@
+<% include homepage %>
+<html>
+<form method="POST" action="/addwork">
+<div class="row">
+    <div class="col-xs-12 col-md-8">
+        <div class="row">
+            <% for(var i=0; i<projects.length; i++){%>
+                <div class="card col-xs-4">
+                    <h4 class="card-title"> <%= projects[i].title %></h4>
+                    <a href="<%= projects[i].URL %>" class="btn btn-primary card-link">View Work</a>
+                </div>
+            <% } %>
+        </div>
+    </div>
+<div class="col-xs-12 col-md-4">
+    <div class="form-container">
+        <h3 style="margin-bottom:40px;">Add Work</h3>
+        <form class="form" method="POST" action="/project">
+            <div class="form-group">
+                <label for="InputTitle">Title</label>
+                <input name = "title" type="text" class="form-control" id="InputTitle" placeholder="Title">
+            </div>
+            <div class="form-group">
+                <label for="InputLink">Link</label>
+                <input name = "URL" type="url" class="form-control" id="InputLink" placeholder="Link">
+            </div>
+            <button type="submit" class="btn btn-default">Submit</button>
+        </form>
+    </div>
+</div>
+</div>
+</html>
